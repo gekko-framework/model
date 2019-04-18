@@ -1,0 +1,25 @@
+{
+    "name": "gekko/model",
+    "version": "0.1.0",
+    "description": "The Gekko Model package.",
+    "license": "MIT",
+    "homepage": "https://github.com/gekko-framework",
+    "authors": [
+        {
+            "name": "Leonardo Brugnara",
+            "email": "lfbrugnara@gmail.com"
+        }
+    ],
+    "require": {
+        "php": "^7.2",
+        "gekko/collections": "^0.1.0",
+        "gekko/helpers": "^0.1.0",
+        "gekko/serialization": "^0.1.0",
+        "gekko/types": "^0.1.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Gekko\\": "src/"
+        }
+    }
+}
