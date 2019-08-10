@@ -4,6 +4,8 @@ use \Gekko\Model\PropertyDescriptor;
 use \Gekko\Model\ModelRelationDescriptor;
 use \Gekko\Model\PropertyRelationDescriptor;
 
+require "Utilities.php";
+
 $notOwnProperties = $model->namedRelationships()
     ->where(function (ModelRelationDescriptor $relation) {
         return $relation->kind === ModelRelationDescriptor::BelongsTo;
@@ -69,7 +71,7 @@ trait <?= $model->className . "Trait" . PHP_EOL; ?>
      * 
      * @param <?= $property->type->raw() ?> $<?= $property->propertyName  ?> value to set
      */
-    public function set<?= strtoupper($property->propertyName[0]) . substr($property->propertyName, 1);  ?>(<?= $property->type->raw() ?> $<?= $property->propertyName  ?>)
+    public function set<?= to_getter_setter_name($property->propertyName);  ?>(<?= $property->type->raw() ?> $<?= $property->propertyName  ?>)
     {
         $this-><?= $property->propertyName  ?> = $<?= $property->propertyName  ?>;
     }
@@ -80,7 +82,7 @@ trait <?= $model->className . "Trait" . PHP_EOL; ?>
      * 
      * @return <?= $property->type->raw() ?> current value
      */
-    public function get<?= strtoupper($property->propertyName[0]) . substr($property->propertyName, 1);  ?>() : <?= $property->type->raw() ?>
+    public function get<?= to_getter_setter_name($property->propertyName);  ?>() : <?= $property->type->raw() ?>
 
     {
         return $this-><?= $property->propertyName  ?>;
@@ -93,7 +95,7 @@ trait <?= $model->className . "Trait" . PHP_EOL; ?>
      * 
      * @param \<?= $relation->foreignModel ?> $<?= $relation->name  ?> value to set
      */
-    public function set<?= strtoupper($relation->name[0]) . substr($relation->name, 1);  ?>(\<?= $relation->foreignModel ?> $<?= $relation->name  ?>)
+    public function set<?= to_getter_setter_name($relation->name);  ?>(\<?= $relation->foreignModel ?> $<?= $relation->name  ?>)
     {
         $this-><?= $relation->name  ?> = $<?= $relation->name  ?>;
     }
@@ -103,7 +105,7 @@ trait <?= $model->className . "Trait" . PHP_EOL; ?>
      * 
      * @return \<?= $relation->foreignModel ?> current value
      */
-    public function get<?= strtoupper($relation->name[0]) . substr($relation->name, 1);  ?>() : \<?= $relation->foreignModel ?>
+    public function get<?= to_getter_setter_name($relation->name);  ?>() : \<?= $relation->foreignModel ?>
 
     {
         return $this-><?= $relation->name  ?>;
