@@ -71,7 +71,7 @@ trait <?= $model->className . "Trait" . PHP_EOL; ?>
      * 
      * @param <?= $property->type->raw() ?> $<?= $property->propertyName  ?> value to set
      */
-    public function set<?= to_getter_setter_name($property->propertyName);  ?>(<?= $property->type->raw() ?> $<?= $property->propertyName  ?>)
+    public function <?= to_setter_name($property)  ?>(<?= $property->type->raw() ?> $<?= $property->propertyName  ?>)
     {
         $this-><?= $property->propertyName  ?> = $<?= $property->propertyName  ?>;
     }
@@ -82,7 +82,7 @@ trait <?= $model->className . "Trait" . PHP_EOL; ?>
      * 
      * @return <?= $property->type->raw() ?> current value
      */
-    public function get<?= to_getter_setter_name($property->propertyName);  ?>() : <?= $property->type->raw() ?>
+    public function <?= to_getter_name($property)  ?>() : <?= $property->type->raw() ?>
 
     {
         return $this-><?= $property->propertyName  ?>;
@@ -95,7 +95,7 @@ trait <?= $model->className . "Trait" . PHP_EOL; ?>
      * 
      * @param \<?= $relation->foreignModel ?> $<?= $relation->name  ?> value to set
      */
-    public function set<?= to_getter_setter_name($relation->name);  ?>(\<?= $relation->foreignModel ?> $<?= $relation->name  ?>)
+    public function set<?= sanitize_name($relation->name);  ?>(\<?= $relation->foreignModel ?> $<?= $relation->name  ?>)
     {
         $this-><?= $relation->name  ?> = $<?= $relation->name  ?>;
     }
@@ -105,7 +105,7 @@ trait <?= $model->className . "Trait" . PHP_EOL; ?>
      * 
      * @return \<?= $relation->foreignModel ?> current value
      */
-    public function get<?= to_getter_setter_name($relation->name);  ?>() : \<?= $relation->foreignModel ?>
+    public function get<?= sanitize_name($relation->name);  ?>() : \<?= $relation->foreignModel ?>
 
     {
         return $this-><?= $relation->name  ?>;
