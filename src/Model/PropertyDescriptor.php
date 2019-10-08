@@ -58,6 +58,11 @@ class PropertyDescriptor implements IJsonSerializable
      */
     private $length;
 
+    /**
+     * @var bool
+     */
+    private $is_array;
+
     public function __construct(ModelDescriptor $model, string $name)
     {
         $this->model = $model;
@@ -216,6 +221,12 @@ class PropertyDescriptor implements IJsonSerializable
         return $this;
     }
 
+    public function array() : self
+    {
+        $this->is_array = true;
+        return $this;
+    }
+
     public function getJsonDescriptor() : JsonDescriptor
     {
         $d = new JsonDescriptor();
@@ -228,6 +239,7 @@ class PropertyDescriptor implements IJsonSerializable
         $d->property("primaryKey")->boolean();
         $d->property("unique")->boolean();
         $d->property("length")->int32();
+        $d->property("is_array")->boolean();
 
         return $d;
     }

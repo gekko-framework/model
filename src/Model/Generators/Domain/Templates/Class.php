@@ -44,7 +44,7 @@ class <?= $model->className . PHP_EOL; ?>
 {
 <?php foreach ($ownProperties as $property): ?>
     /**
-     * @var <?= $property->type->raw() . PHP_EOL ?>
+     * @var <?= $property->type->raw() . ($property->is_array ? "[]" : "") . PHP_EOL ?>
      */
     private $<?= $property->propertyName  ?>;
 
@@ -67,9 +67,9 @@ class <?= $model->className . PHP_EOL; ?>
     /**
      * Set $<?= $property->propertyName?>'s value
      * 
-     * @param <?= $property->type->raw() ?> $<?= $property->propertyName  ?> value to set
+     * @param <?= $property->is_array ? "array" : $property->type->raw() ?> $<?= $property->propertyName  ?> value to set
      */
-    public function <?= to_setter_name($property)  ?>(<?= $property->type->raw() ?> $<?= $property->propertyName  ?>)
+    public function <?= to_setter_name($property)  ?>(<?= $property->is_array ? "array" : $property->type->raw() ?> $<?= $property->propertyName  ?>)
     {
         $this-><?= $property->propertyName  ?> = $<?= $property->propertyName  ?>;
     }
@@ -78,9 +78,9 @@ class <?= $model->className . PHP_EOL; ?>
     /**
      * Get $<?= $property->propertyName?>'s value
      * 
-     * @return <?= $property->type->raw() ?> current value
+     * @return <?= $property->is_array ? "array" : $property->type->raw() ?> current value
      */
-    public function <?= to_getter_name($property)  ?>() : <?= $property->type->raw() ?>
+    public function <?= to_getter_name($property)  ?>() : <?= $property->is_array ? "array" : $property->type->raw() ?>
 
     {
         return $this-><?= $property->propertyName  ?>;

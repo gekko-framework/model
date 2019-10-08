@@ -11,11 +11,9 @@ $notOwnProperties = $model->namedRelationships()
         return $relation->kind === ModelRelationDescriptor::BelongsTo;
     })
     ->selectMany(function (ModelRelationDescriptor $relation) {
-        $array = $relation->properties()->select(function (PropertyRelationDescriptor $propertyRelation) {
+        return $relation->properties()->select(function (PropertyRelationDescriptor $propertyRelation) {
             return $propertyRelation->local;
         });
-
-        return $array;
     })
     ->toArray();
 
@@ -46,14 +44,14 @@ trait <?= $model->className . "Trait" . PHP_EOL; ?>
 {
 <?php foreach ($ownProperties as $property): ?>
     /**
-     * @var <?= $property->type->raw() . PHP_EOL ?>
+     * @var <?= $property->type->raw() . ($property->is_array ? "[]" : "") . PHP_EOL ?>
      */
     private $<?= $property->propertyName  ?>;
 
 <?php endforeach; ?>
 <?php foreach ($model->namedRelationships() as $relation): ?>
     /**
-     * @var <?= "\\{$relation->foreignModel}" . PHP_EOL ?>
+     * @var <?= "\\{$relation->foreignModel}" . ($relation->kind === ModelRelationDescriptor::HasMany ? "[]" : "") . PHP_EOL ?>
      */
     private $<?= $relation->name  ?>;
 
@@ -69,9 +67,9 @@ trait <?= $model->className . "Trait" . PHP_EOL; ?>
     /**
      * Set $<?= $property->propertyName?>'s value
      * 
-     * @param <?= $property->type->raw() ?> $<?= $property->propertyName  ?> value to set
+     * @param <?= $property->is_array ? "array" : $property->type->raw() ?> $<?= $property->propertyName  ?> value to set
      */
-    public function <?= to_setter_name($property)  ?>(<?= $property->type->raw() ?> $<?= $property->propertyName  ?>)
+    public function <?= to_setter_name($property)  ?>(<?= $property->is_array ? "array" : $property->type->raw() ?> $<?= $property->propertyName  ?>)
     {
         $this-><?= $property->propertyName  ?> = $<?= $property->propertyName  ?>;
     }
@@ -80,9 +78,9 @@ trait <?= $model->className . "Trait" . PHP_EOL; ?>
     /**
      * Get $<?= $property->propertyName?>'s value
      * 
-     * @return <?= $property->type->raw() ?> current value
+     * @return <?= $property->is_array ? "array" : $property->type->raw() ?> current value
      */
-    public function <?= to_getter_name($property)  ?>() : <?= $property->type->raw() ?>
+    public function <?= to_getter_name($property)  ?>() : <?= $property->is_array ? "array" : $property->type->raw() ?>
 
     {
         return $this-><?= $property->propertyName  ?>;
@@ -93,9 +91,9 @@ trait <?= $model->className . "Trait" . PHP_EOL; ?>
     /**
      * Set $<?= $relation->name ?>'s value
      * 
-     * @param \<?= $relation->foreignModel ?> $<?= $relation->name  ?> value to set
+     * @param \<?= $relation->foreignModel ?><?= ($relation->kind === ModelRelationDescriptor::HasMany ? "[]" : "") ?> $<?= $relation->name  ?> value to set
      */
-    public function set<?= sanitize_name($relation->name);  ?>(\<?= $relation->foreignModel ?> $<?= $relation->name  ?>)
+    public function set<?= sanitize_name($relation->name);  ?>(<?= $relation->kind === ModelRelationDescriptor::HasMany ? "array" : "\\{$relation->foreignModel}" ?> $<?= $relation->name  ?>)
     {
         $this-><?= $relation->name  ?> = $<?= $relation->name  ?>;
     }
@@ -103,9 +101,9 @@ trait <?= $model->className . "Trait" . PHP_EOL; ?>
     /**
      * Get $<?= $relation->name?>'s value
      * 
-     * @return \<?= $relation->foreignModel ?> current value
+     * @return \<?= $relation->foreignModel ?><?= ($relation->kind === ModelRelationDescriptor::HasMany ? "[]" : "") ?> current value
      */
-    public function get<?= sanitize_name($relation->name);  ?>() : \<?= $relation->foreignModel ?>
+    public function get<?= sanitize_name($relation->name);  ?>() : <?= $relation->kind === ModelRelationDescriptor::HasMany ? "array" : "\\{$relation->foreignModel}" ?>
 
     {
         return $this-><?= $relation->name  ?>;

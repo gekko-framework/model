@@ -138,6 +138,9 @@ class DomainGenerator implements IGenerator
         if ($property->length !== null)
             $definition .= "{$separator}->length({$property->length})";
 
+        if ($property->is_array)
+            $definition .= "{$separator}->array()";
+
         $definition .= ";";
 
         return $definition;
