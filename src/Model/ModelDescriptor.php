@@ -91,7 +91,11 @@ class ModelDescriptor implements IJsonSerializable
 
     public function namespace(string $ns) : self
     {
-        $this->namespace = $ns;
+        if ($this->namespace == null)
+            $this->namespace = $ns;
+        else
+            $this->namespace .= "\\" . $ns;
+
         return $this;
     }
 
